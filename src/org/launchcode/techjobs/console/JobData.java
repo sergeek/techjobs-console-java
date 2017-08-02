@@ -70,15 +70,29 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
+
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
         for (HashMap<String, String> row : allJobs) {
-
-            String aValue = row.get(column);
-
-            if (aValue.contains(value)) {
-                jobs.add(row);
+            //if user selects all columns, loop through each column in job posting
+            if (column.equals("all")) {
+                for (String key : row.keySet()) {
+                    String aVal = row.get(key);
+                    if (aVal.toLowerCase().contains(value.toLowerCase())) {
+                        jobs.add(row);
+                        break; //if key word found, break out of this job and go to next one
+                    }
+                }
             }
+            //else loop only through the column selected in each job posting
+            else {
+                String aValue = row.get(column);
+
+                if (aValue.toLowerCase().contains(value.toLowerCase())) {
+                    jobs.add(row);
+                }
+            }
+
         }
 
         return jobs;
